@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação das Instalações - Visan</title>
+    <!-- Incluindo o Tailwind CSS para um design moderno e responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Incluindo a fonte Inter para uma melhor legibilidade -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Container Principal -->
+    <div class="container mx-auto max-w-6xl p-4 sm:p-6 lg:p-8">
+
+        <!-- Cabeçalho com Logo e Informações -->
+        <header class="bg-white p-6 rounded-xl shadow-md mb-8 text-center">
+            <img src="https://raw.githubusercontent.com/Clebito2/Visanreestruturacao/refs/heads/main/logo.webp" alt="Logo Visan" class="mx-auto h-16 mb-6" onerror="this.style.display='none'">
+            
+            <h1 class="text-3xl md:text-4xl font-bold text-blue-800">Apresentação das Instalações</h1>
+            <div class="text-left mt-6 border-t pt-4">
+                <p class="mt-2 text-lg text-gray-700"><strong>Edifício:</strong> Sede Visan</p>
+                <p class="text-md text-gray-500"><strong>Endereço:</strong> Av. C1, Qd 09 Lt 19, n 827 - Jardim América – 74265-010 - Goiânia/GO/Brasil</p>
+                <p class="text-md text-gray-500"><strong>Data:</strong> 06/08/2025</p>
+            </div>
+        </header>
+
+        <!-- Seção de Resumo e Observações -->
+        <section class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h2 class="text-2xl font-bold text-blue-700 border-b-2 border-blue-200 pb-2 mb-4">Oportunidade Estratégica</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Disponível para repasse, excepcional ponto comercial de esquina com localização estratégica no Jardim América, em Goiânia. O imóvel, com aproximadamente 800m² de área útil, foi objeto de uma reforma integral, resultando em uma infraestrutura de alto padrão projetada para máxima eficiência operacional, incluindo a construção de um amplo mezanino, área de estoque, salas de reunião, e a instalação de um elevador de carga. O grande diferencial competitivo deste ponto reside em sua completa adaptação para o setor de saúde, possuindo projetos arquitetônicos já aprovados junto aos órgãos competentes para habilitação imediata como Distribuidora de Produtos para Saúde ou, alternativamente, como Distribuidora de Medicamentos, Cosméticos e Saneantes. Trata-se de uma oportunidade única para empresas que buscam uma instalação de prestígio, eliminando os custos, prazos e complexidades de obras e processos regulatórios, permitindo o início de atividades de forma célere e segura.
+            </p>
+        </section>
+
+        <!-- Galeria de Fotos -->
+        <section>
+            <h2 class="text-2xl font-bold text-blue-700 mb-6">Registro Fotográfico</h2>
+            <div id="gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <!-- As imagens serão inseridas aqui via JavaScript -->
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Modal para Visualização da Imagem Ampliada -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden items-center justify-center p-4 z-50 transition-opacity duration-300">
+        <div class="relative bg-white p-2 rounded-lg max-w-4xl max-h-full shadow-2xl">
+            <img id="modal-img" src="" alt="Imagem ampliada" class="w-full h-auto max-h-[85vh] object-contain rounded">
+            <button id="close-modal" class="absolute -top-4 -right-4 text-white bg-red-600 hover:bg-red-700 rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold transition-transform transform hover:scale-110">
+                &times;
+            </button>
+            <p id="modal-caption" class="text-center text-gray-800 bg-white/70 p-1 rounded-b-lg absolute bottom-2 left-2 right-2 font-semibold"></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const gallery = document.getElementById('gallery');
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modal-img');
+            const modalCaption = document.getElementById('modal-caption');
+            const closeModal = document.getElementById('close-modal');
+
+            const totalPhotos = 56;
+            const captions = [
+                "Foto 1: Fachada Frontal", "Foto 2: Vista Lateral Direita", "Foto 3: Vista Lateral Esquerda",
+                "Foto 4: Fundos do Edifício", "Foto 5: Hall de Entrada", "Foto 6: Recepção",
+                "Foto 7: Corredor do 1º Andar", "Foto 8: Escadaria de Emergência", "Foto 9: Elevador Social",
+                "Foto 10: Garagem - Vaga 01", "Foto 11: Infiltração na Garagem", "Foto 12: Quadro de Energia Principal",
+                "Foto 13: Caixa d'água Superior", "Foto 14: Casa de Máquinas", "Foto 15: Para-raios",
+                "Foto 16: Antenas na Cobertura", "Foto 17: Rachadura na Parede Externa", "Foto 18: Área da Piscina",
+                "Foto 19: Salão de Festas", "Foto 20: Playground", "Foto 21: [Descrição]", "Foto 22: [Descrição]",
+                "Foto 23: [Descrição]", "Foto 24: [Descrição]", "Foto 25: [Descrição]", "Foto 26: [Descrição]",
+                "Foto 27: [Descrição]", "Foto 28: [Descrição]", "Foto 29: [Descrição]", "Foto 30: [Descrição]",
+                "Foto 31: [Descrição]", "Foto 32: [Descrição]", "Foto 33: [Descrição]", "Foto 34: [Descrição]",
+                "Foto 35: [Descrição]", "Foto 36: [Descrição]", "Foto 37: [Descrição]", "Foto 38: [Descrição]",
+                "Foto 39: [Descrição]", "Foto 40: [Descrição]", "Foto 41: [Descrição]", "Foto 42: [Descrição]",
+                "Foto 43: [Descrição]", "Foto 44: [Descrição]", "Foto 45: [Descrição]", "Foto 46: [Descrição]",
+                "Foto 47: [Descrição]", "Foto 48: [Descrição]", "Foto 49: [Descrição]", "Foto 50: [Descrição]",
+                "Foto 51: [Descrição]", "Foto 52: [Descrição]", "Foto 53: [Descrição]", "Foto 54: [Descrição]",
+                "Foto 55: [Descrição]", "Foto 56: [Descrição Final]"
+            ];
+
+            for (let i = 1; i <= totalPhotos; i++) {
+                const photoSrc = `fotos/foto (${i}).jpg`;
+                const photoCaption = captions[i - 1] || `Foto ${i}`;
+
+                const galleryItem = `
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer group transform hover:-translate-y-1 transition-all duration-300">
+                        <img src="${photoSrc}" alt="${photoCaption}" loading="lazy" class="gallery-img w-full h-48 object-cover group-hover:opacity-90 transition-opacity" onerror="this.src='https://placehold.co/600x400/f87171/ffffff?text=Imagem+NÃO+Encontrada'; this.onerror=null;">
+                        <div class="p-3">
+                            <p class="text-sm text-center text-gray-700 font-medium">${photoCaption}</p>
+                        </div>
+                    </div>
+                `;
+                gallery.innerHTML += galleryItem;
+            }
+
+            const galleryImages = document.querySelectorAll('.gallery-img');
+            galleryImages.forEach(img => {
+                img.addEventListener('click', (e) => {
+                    if(e.target.src.includes('placehold.co')) return;
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    modalImg.src = img.src;
+                    modalCaption.textContent = img.alt;
+                });
+            });
+
+            function closeModalFunction() {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                modalImg.src = "";
+            }
+
+            closeModal.addEventListener('click', closeModalFunction);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) { closeModalFunction(); }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) { closeModalFunction(); }
+            });
+        });
+    </script>
+
+</body>
+</html>
+```
