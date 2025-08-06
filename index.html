@@ -16,6 +16,12 @@
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #555; }
+        /* Garante que a imagem preencha a altura do card da galeria */
+        .gallery-card img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -60,7 +66,7 @@
             <button id="close-modal" class="absolute -top-4 -right-4 text-white bg-red-600 hover:bg-red-700 rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold transition-transform transform hover:scale-110">
                 &times;
             </button>
-            <p id="modal-caption" class="text-center text-gray-800 bg-white/70 p-1 rounded-b-lg absolute bottom-2 left-2 right-2 font-semibold"></p>
+            <!-- A legenda do modal foi removida -->
         </div>
     </div>
 
@@ -69,45 +75,35 @@
             const gallery = document.getElementById('gallery');
             const modal = document.getElementById('modal');
             const modalImg = document.getElementById('modal-img');
-            const modalCaption = document.getElementById('modal-caption');
             const closeModal = document.getElementById('close-modal');
 
-            const totalPhotos = 56;
-            const captions = [
-                "Foto 1: Fachada Frontal", "Foto 2: Vista Lateral Direita", "Foto 3: Vista Lateral Esquerda",
-                "Foto 4: Fundos do Edifício", "Foto 5: Hall de Entrada", "Foto 6: Recepção",
-                "Foto 7: Corredor do 1º Andar", "Foto 8: Escadaria de Emergência", "Foto 9: Elevador Social",
-                "Foto 10: Garagem - Vaga 01", "Foto 11: Infiltração na Garagem", "Foto 12: Quadro de Energia Principal",
-                "Foto 13: Caixa d'água Superior", "Foto 14: Casa de Máquinas", "Foto 15: Para-raios",
-                "Foto 16: Antenas na Cobertura", "Foto 17: Rachadura na Parede Externa", "Foto 18: Área da Piscina",
-                "Foto 19: Salão de Festas", "Foto 20: Playground", "Foto 21: [Descrição]", "Foto 22: [Descrição]",
-                "Foto 23: [Descrição]", "Foto 24: [Descrição]", "Foto 25: [Descrição]", "Foto 26: [Descrição]",
-                "Foto 27: [Descrição]", "Foto 28: [Descrição]", "Foto 29: [Descrição]", "Foto 30: [Descrição]",
-                "Foto 31: [Descrição]", "Foto 32: [Descrição]", "Foto 33: [Descrição]", "Foto 34: [Descrição]",
-                "Foto 35: [Descrição]", "Foto 36: [Descrição]", "Foto 37: [Descrição]", "Foto 38: [Descrição]",
-                "Foto 39: [Descrição]", "Foto 40: [Descrição]", "Foto 41: [Descrição]", "Foto 42: [Descrição]",
-                "Foto 43: [Descrição]", "Foto 44: [Descrição]", "Foto 45: [Descrição]", "Foto 46: [Descrição]",
-                "Foto 47: [Descrição]", "Foto 48: [Descrição]", "Foto 49: [Descrição]", "Foto 50: [Descrição]",
-                "Foto 51: [Descrição]", "Foto 52: [Descrição]", "Foto 53: [Descrição]", "Foto 54: [Descrição]",
-                "Foto 55: [Descrição]", "Foto 56: [Descrição Final]"
-            ];
+            // *** ALTERAÇÃO REALIZADA AQUI: Lógica de ordenação das fotos ***
 
-            for (let i = 1; i <= totalPhotos; i++) {
-                // *** ALTERAÇÃO REALIZADA AQUI ***
-                // O caminho foi corrigido para buscar as fotos na pasta raiz, como no seu GitHub.
-                const photoSrc = `foto (${i}).jpg`;
-                const photoCaption = captions[i - 1] || `Foto ${i}`;
+            // 1. Define a ordem de destaque
+            const customOrder = [52, 55, 54, 53, 56];
+
+            // 2. Cria uma lista com todos os números de 1 a 56
+            const totalPhotos = 56;
+            const allNumbers = Array.from({ length: totalPhotos }, (_, i) => i + 1);
+
+            // 3. Filtra os números que NÃO estão na lista de destaque
+            const remainingNumbers = allNumbers.filter(num => !customOrder.includes(num));
+
+            // 4. Junta as duas listas: primeiro o destaque, depois o resto
+            const photoOrder = [...customOrder, ...remainingNumbers];
+
+
+            // 5. Gera a galeria usando a nova ordem
+            photoOrder.forEach(photoNumber => {
+                const photoSrc = `foto (${photoNumber}).jpg`;
 
                 const galleryItem = `
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer group transform hover:-translate-y-1 transition-all duration-300">
-                        <img src="${photoSrc}" alt="${photoCaption}" loading="lazy" class="gallery-img w-full h-48 object-cover group-hover:opacity-90 transition-opacity" onerror="this.src='https://placehold.co/600x400/f87171/ffffff?text=Imagem+NÃO+Encontrada'; this.onerror=null;">
-                        <div class="p-3">
-                            <p class="text-sm text-center text-gray-700 font-medium">${photoCaption}</p>
-                        </div>
+                    <div class="gallery-card bg-white rounded-lg shadow-md overflow-hidden cursor-pointer group transform hover:-translate-y-1 transition-all duration-300 aspect-square">
+                        <img src="${photoSrc}" alt="Foto ${photoNumber}" loading="lazy" class="gallery-img group-hover:opacity-90 transition-opacity" onerror="this.src='https://placehold.co/600x400/f87171/ffffff?text=Imagem+NÃO+Encontrada'; this.onerror=null;">
                     </div>
                 `;
                 gallery.innerHTML += galleryItem;
-            }
+            });
 
             const galleryImages = document.querySelectorAll('.gallery-img');
             galleryImages.forEach(img => {
@@ -116,7 +112,7 @@
                     modal.classList.remove('hidden');
                     modal.classList.add('flex');
                     modalImg.src = img.src;
-                    modalCaption.textContent = img.alt;
+                    modalImg.alt = img.alt; // Atualiza o alt da imagem no modal
                 });
             });
 
