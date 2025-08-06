@@ -93,7 +93,9 @@
             ];
 
             for (let i = 1; i <= totalPhotos; i++) {
-                const photoSrc = `fotos/foto (${i}).jpg`;
+                // *** ALTERAÇÃO REALIZADA AQUI ***
+                // O caminho foi corrigido para buscar as fotos na pasta raiz, como no seu GitHub.
+                const photoSrc = `foto (${i}).jpg`;
                 const photoCaption = captions[i - 1] || `Foto ${i}`;
 
                 const galleryItem = `
@@ -136,4 +138,3 @@
 
 </body>
 </html>
-```
